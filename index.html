@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizador de Tareas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <section id="loginView" class="login-view">
+      <div class="login-card">
+        <div class="brand">
+          <div class="brand-icon">✓</div>
+          <div>
+            <h1>OrganizaTec</h1>
+            <p>Organizador de tareas escolares</p>
+          </div>
+        </div>
+
+        <form id="loginForm">
+          <label for="loginName">Nombre del estudiante</label>
+          <input id="loginName" type="text" placeholder="Ej. Alexis Muñiz" required maxlength="60">
+
+          <label for="loginEmail">Correo</label>
+          <input id="loginEmail" type="email" placeholder="alumno@ejemplo.com" required maxlength="100">
+
+          <button class="btn primary full" type="submit">Entrar</button>
+        </form>
+
+        <p class="small-note">Demo académica: los datos se guardan únicamente en este navegador.</p>
+      </div>
+    </section>
+
+    <section id="mainView" class="hidden">
+      <header class="topbar">
+        <div class="brand compact">
+          <div class="brand-icon">✓</div>
+          <div>
+            <strong>OrganizaTec</strong>
+            <span>Mis actividades</span>
+          </div>
+        </div>
+
+        <div class="user-menu">
+          <span id="welcomeUser"></span>
+          <button id="logoutBtn" class="btn ghost">Cerrar sesión</button>
+        </div>
+      </header>
+
+      <main class="container">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">ORGANIZACIÓN ACADÉMICA</p>
+            <h2>Hola, <span id="studentName"></span> 👋</h2>
+            <p>Consulta tus tareas y mantén controladas tus fechas de entrega.</p>
+          </div>
+          <button id="newTaskTopBtn" class="btn primary">+ Nueva tarea</button>
+        </section>
+
+        <section class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">Total</span>
+            <strong id="totalCount">0</strong>
+            <span class="stat-sub">tareas registradas</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Pendientes</span>
+            <strong id="pendingCount">0</strong>
+            <span class="stat-sub">por realizar</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">En proceso</span>
+            <strong id="progressCount">0</strong>
+            <span class="stat-sub">trabajando en ellas</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Terminadas</span>
+            <strong id="doneCount">0</strong>
+            <span class="stat-sub">completadas</span>
+          </article>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Mis tareas</h3>
+              <p>Administra tus actividades escolares.</p>
+            </div>
+            <button id="newTaskBtn" class="btn primary">+ Agregar tarea</button>
+          </div>
+
+          <div class="filters">
+            <div class="search-wrap">
+              <input id="searchInput" type="search" placeholder="Buscar por tarea, materia o descripción...">
+            </div>
+            <select id="statusFilter">
+              <option value="todas">Todos los estados</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="En proceso">En proceso</option>
+              <option value="Terminada">Terminada</option>
+            </select>
+            <select id="sortFilter">
+              <option value="fechaAsc">Fecha: más próxima</option>
+              <option value="fechaDesc">Fecha: más lejana</option>
+              <option value="nombre">Nombre A-Z</option>
+              <option value="estado">Estado</option>
+            </select>
+          </div>
+
+          <div id="taskList" class="task-list"></div>
+          <div id="emptyState" class="empty-state hidden">
+            <div class="empty-icon">📚</div>
+            <h3>No hay tareas para mostrar</h3>
+            <p>Agrega una tarea nueva o cambia los filtros.</p>
+            <button id="emptyNewBtn" class="btn primary">Agregar tarea</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Mis materias</h3>
+              <p>Administra las materias que utilizas en tus tareas.</p>
+            </div>
+            <button id="newSubjectBtn" class="btn secondary">+ Agregar materia</button>
+          </div>
+          <div id="subjectList" class="subject-list"></div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <!-- Modal de tarea -->
+  <div id="taskModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="taskModalTitle">Nueva tarea</h3>
+          <p>Completa los datos de la actividad.</p>
+        </div>
+        <button class="close-btn" data-close="taskModal" aria-label="Cerrar">×</button>
+      </div>
+
+      <form id="taskForm">
+        <input id="taskId" type="hidden">
+
+        <label for="taskName">Nombre de la tarea *</label>
+        <input id="taskName" type="text" maxlength="100" required placeholder="Ej. Reporte de investigación">
+
+        <div class="form-grid">
+          <div>
+            <label for="taskSubject">Materia *</label>
+            <select id="taskSubject" required></select>
+          </div>
+          <div>
+            <label for="taskDate">Fecha de entrega *</label>
+            <input id="taskDate" type="date" required>
+          </div>
+        </div>
+
+        <label for="taskDescription">Descripción</label>
+        <textarea id="taskDescription" rows="4" maxlength="500" placeholder="Describe brevemente lo que tienes que realizar..."></textarea>
+
+        <label for="taskStatus">Estado</label>
+        <select id="taskStatus">
+          <option value="Pendiente">Pendiente</option>
+          <option value="En proceso">En proceso</option>
+          <option value="Terminada">Terminada</option>
+        </select>
+
+        <div class="modal-actions">
+          <button type="button" class="btn ghost" data-close="taskModal">Cancelar</button>
+          <button type="submit" class="btn primary">Guardar tarea</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de materia -->
+  <div id="subjectModal" class="modal hidden">
+    <div class="modal-card small">
+      <div class="modal-header">
+        <div>
+          <h3>Nueva materia</h3>
+          <p>Agrega una materia para usarla en tus tareas.</p>
+        </div>
+        <button class="close-btn" data-close="subjectModal" aria-label="Cerrar">×</button>
+      </div>
+
+      <form id="subjectForm">
+        <label for="subjectName">Nombre de la materia *</label>
+        <input id="subjectName" type="text" maxlength="80" required placeholder="Ej. Programación para IA">
+
+        <label for="subjectTeacher">Profesor</label>
+        <input id="subjectTeacher" type="text" maxlength="80" placeholder="Ej. Mtro. Juan Pérez">
+
+        <div class="modal-actions">
+          <button type="button" class="btn ghost" data-close="subjectModal">Cancelar</button>
+          <button type="submit" class="btn primary">Guardar materia</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
