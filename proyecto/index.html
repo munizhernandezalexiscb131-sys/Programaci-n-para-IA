@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>OrganizaTec - Organizador de Tareas</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Permite saltar directamente al contenido -->
+    <a class="skip-link" href="#contenido">
+        Saltar al contenido principal
+    </a>
+
+    <!-- ENCABEZADO -->
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon" aria-hidden="true">
+                OT
+            </div>
+
+            <div>
+                <h1>OrganizaTec</h1>
+
+                <p>
+                    Organizador de tareas accesible
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- HERRAMIENTAS DE ACCESIBILIDAD -->
+        <div
+            class="accessibility-tools"
+            aria-label="Herramientas de accesibilidad"
+        >
+
+            <button
+                id="btnLeerPagina"
+                class="access-btn"
+                type="button"
+                aria-label="Leer la página en voz alta"
+            >
+                🔊 Leer página
+            </button>
+
+            <button
+                id="btnDisminuirTexto"
+                class="access-btn"
+                type="button"
+                aria-label="Disminuir tamaño del texto"
+            >
+                A−
+            </button>
+
+            <button
+                id="btnAumentarTexto"
+                class="access-btn"
+                type="button"
+                aria-label="Aumentar tamaño del texto"
+            >
+                A+
+            </button>
+
+            <button
+                id="btnContraste"
+                class="access-btn"
+                type="button"
+                aria-pressed="false"
+                aria-label="Activar o desactivar alto contraste"
+            >
+                ◐ Contraste
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main id="contenido" class="container">
+
+
+        <!-- LOGIN -->
+        <section
+            id="loginView"
+            class="card login-card"
+            aria-labelledby="loginTitle"
+        >
+
+            <h2 id="loginTitle">
+                Bienvenido a OrganizaTec
+            </h2>
+
+            <p>
+                Ingresa tus datos para comenzar a organizar tus tareas.
+            </p>
+
+
+            <form id="loginForm">
+
+                <label for="loginNombre">
+                    Nombre
+                </label>
+
+                <input
+                    id="loginNombre"
+                    type="text"
+                    required
+                    autocomplete="name"
+                    placeholder="Escribe tu nombre"
+                >
+
+
+                <label for="loginCorreo">
+                    Correo
+                </label>
+
+                <input
+                    id="loginCorreo"
+                    type="email"
+                    required
+                    autocomplete="email"
+                    placeholder="ejemplo@correo.com"
+                >
+
+
+                <button
+                    class="primary-btn"
+                    type="submit"
+                >
+                    Entrar al organizador
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- APLICACIÓN -->
+        <section id="appView" hidden>
+
+
+            <!-- BIENVENIDA -->
+            <div class="welcome-row">
+
+                <div>
+
+                    <h2 id="saludo"></h2>
+
+                    <p>
+                        Organiza tus materias y tareas desde un solo lugar.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="btnCerrarSesion"
+                    class="secondary-btn"
+                    type="button"
+                >
+                    Cerrar sesión
+                </button>
+
+            </div>
+
+
+            <!-- ESTADÍSTICAS -->
+            <div
+                class="stats-grid"
+                aria-label="Resumen de tareas"
+            >
+
+                <article class="stat-card">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="statTotal">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <span>
+                        Pendientes
+                    </span>
+
+                    <strong id="statPendientes">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <span>
+                        En proceso
+                    </span>
+
+                    <strong id="statProceso">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <span>
+                        Terminadas
+                    </span>
+
+                    <strong id="statTerminadas">
+                        0
+                    </strong>
+
+                </article>
+
+            </div>
+
+
+            <!-- MATERIAS Y TAREAS -->
+            <div class="grid-two">
+
+
+                <!-- MATERIAS -->
+                <section
+                    class="card"
+                    aria-labelledby="materiasTitle"
+                >
+
+                    <div class="section-title">
+
+                        <div>
+
+                            <h2 id="materiasTitle">
+                                Materias
+                            </h2>
+
+                            <p>
+                                Administra tus materias.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            id="btnNuevaMateria"
+                            class="primary-btn"
+                            type="button"
+                        >
+                            + Materia
+                        </button>
+
+                    </div>
+
+
+                    <!-- FORMULARIO MATERIA -->
+                    <form
+                        id="materiaForm"
+                        class="inline-form"
+                        hidden
+                    >
+
+                        <label for="materiaNombre">
+                            Nombre de la materia
+                        </label>
+
+                        <input
+                            id="materiaNombre"
+                            type="text"
+                            required
+                            placeholder="Ej. Programación para IA"
+                        >
+
+
+                        <label for="materiaProfesor">
+                            Profesor
+                        </label>
+
+                        <input
+                            id="materiaProfesor"
+                            type="text"
+                            placeholder="Nombre del profesor"
+                        >
+
+
+                        <div class="form-actions">
+
+                            <button
+                                class="primary-btn"
+                                type="submit"
+                            >
+                                Guardar materia
+                            </button>
+
+                            <button
+                                id="btnCancelarMateria"
+                                class="secondary-btn"
+                                type="button"
+                            >
+                                Cancelar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+
+                    <div
+                        id="materiasLista"
+                        class="list"
+                        aria-live="polite"
+                    ></div>
+
+                </section>
+
+
+                <!-- TAREAS -->
+                <section
+                    class="card"
+                    aria-labelledby="tareasTitle"
+                >
+
+                    <div class="section-title">
+
+                        <div>
+
+                            <h2 id="tareasTitle">
+                                Tareas
+                            </h2>
+
+                            <p>
+                                Consulta y administra tus actividades.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            id="btnNuevaTarea"
+                            class="primary-btn"
+                            type="button"
+                        >
+                            + Tarea
+                        </button>
+
+                    </div>
+
+
+                    <!-- FILTROS -->
+                    <div class="filters">
+
+                        <label for="buscarTarea">
+                            Buscar
+                        </label>
+
+                        <input
+                            id="buscarTarea"
+                            type="search"
+                            placeholder="Tarea, materia o descripción"
+                        >
+
+
+                        <label for="filtroEstado">
+                            Estado
+                        </label>
+
+                        <select id="filtroEstado">
+
+                            <option value="todas">
+                                Todas
+                            </option>
+
+                            <option value="Pendiente">
+                                Pendientes
+                            </option>
+
+                            <option value="En proceso">
+                                En proceso
+                            </option>
+
+                            <option value="Terminada">
+                                Terminadas
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div
+                        id="tareasLista"
+                        class="list"
+                        aria-live="polite"
+                    ></div>
+
+                </section>
+
+            </div>
+
+
+            <!-- FORMULARIO DE TAREA -->
+            <section
+                id="tareaPanel"
+                class="card form-card"
+                hidden
+                aria-labelledby="formTareaTitle"
+            >
+
+                <h2 id="formTareaTitle">
+                    Nueva tarea
+                </h2>
+
+
+                <form id="tareaForm">
+
+                    <input
+                        id="tareaId"
+                        type="hidden"
+                    >
+
+
+                    <div class="form-grid">
+
+
+                        <div>
+
+                            <label for="tareaNombre">
+                                Nombre de la tarea
+                            </label>
+
+                            <input
+                                id="tareaNombre"
+                                type="text"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label for="tareaMateria">
+                                Materia
+                            </label>
+
+                            <select
+                                id="tareaMateria"
+                                required
+                            ></select>
+
+                        </div>
+
+
+                        <div>
+
+                            <label for="tareaFecha">
+                                Fecha de entrega
+                            </label>
+
+                            <input
+                                id="tareaFecha"
+                                type="date"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label for="tareaEstado">
+                                Estado
+                            </label>
+
+                            <select id="tareaEstado">
+
+                                <option value="Pendiente">
+                                    Pendiente
+                                </option>
+
+                                <option value="En proceso">
+                                    En proceso
+                                </option>
+
+                                <option value="Terminada">
+                                    Terminada
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="full">
+
+                            <label for="tareaDescripcion">
+                                Descripción
+                            </label>
+
+                            <textarea
+                                id="tareaDescripcion"
+                                rows="4"
+                                placeholder="Describe brevemente la actividad"
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            class="primary-btn"
+                            type="submit"
+                        >
+                            Guardar tarea
+                        </button>
+
+                        <button
+                            id="btnCancelarTarea"
+                            class="secondary-btn"
+                            type="button"
+                        >
+                            Cancelar
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- MENSAJES -->
+            <div
+                id="mensaje"
+                class="message"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- PIE -->
+    <footer>
+
+        <p>
+            OrganizaTec · Organizador de tareas para estudiantes
+        </p>
+
+        <p>
+            Proyecto con funciones de accesibilidad.
+        </p>
+
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
